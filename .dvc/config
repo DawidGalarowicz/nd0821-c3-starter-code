@@ -1,0 +1,4 @@
+[core]
+    remote = s3_heroku_census
+['remote "s3_heroku_census"']
+    url = s3://udacity-heroku-mlops

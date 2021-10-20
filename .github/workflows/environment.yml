@@ -1,5 +1,7 @@
+name: conda_tests
 channels:
   - conda-forge
+  - default
 dependencies:
   - scikit-learn
   - dvc

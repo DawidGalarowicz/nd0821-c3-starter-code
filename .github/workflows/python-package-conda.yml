@@ -20,8 +20,8 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda create --file ./.github/workflows/environment.yml --name gh_tests
-        conda activate gh_tests
+        conda env create -f ./.github/workflows/environment.yml
+        conda activate conda_tests
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

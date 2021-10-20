@@ -20,7 +20,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda create --file environment.yml --name gh_tests
+        conda create --file ./.github/workflows/environment.yml --name gh_tests
         conda activate gh_tests
     - name: Lint with flake8
       run: |

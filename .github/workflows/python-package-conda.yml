@@ -10,6 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: iterative/setup-dvc@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -21,6 +22,15 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file ./.github/workflows/environment.yml --name base
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::696441228013:user/udacity-heroku-mlops
+        aws-region: eu-west-2
+    - name: Pull DVC
+      run: |
+        dvc remote add -d myremote s3://udacity-heroku-mlops
+        dvc pull
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

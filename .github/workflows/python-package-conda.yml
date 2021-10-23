@@ -17,10 +17,11 @@ jobs:
         environment-file: ./.github/workflows/environment.yml
         python-version: 3.8
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@master
       with:
         role-to-assume: arn:aws:iam::696441228013:user/udacity-heroku-mlops
         aws-region: eu-west-2
+        role-session-name: GitHubActions
     - uses: iterative/setup-dvc@v1
     - name: Pull DVC
       run: |

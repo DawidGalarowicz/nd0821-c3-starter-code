@@ -1,4 +1,3 @@
-name: conda_tests
 channels:
   - conda-forge
   - default

@@ -11,8 +11,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - uses: actions/checkout@v2
-    - uses: conda-incubator/setup-miniconda@v2
+    - name: Prepare Git
+      uses: actions/checkout@v2
+    - name: Configure Conda
+      uses: conda-incubator/setup-miniconda@v2
       with:
         environment-file: ./.github/workflows/environment.yml
         python-version: 3.8
@@ -22,17 +24,19 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
-    - uses: iterative/setup-dvc@v1
-    - name: Pull DVC
+    - name: Configure DVC
+      uses: iterative/setup-dvc@v1
+    - name: Pull data from S3 with DVC
       run: |
         dvc remote add -d myremote s3://udacity-heroku-mlops
         dvc pull
+        ls starter/data -l
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        python3.8 -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        python3.8 -m flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
         pytest

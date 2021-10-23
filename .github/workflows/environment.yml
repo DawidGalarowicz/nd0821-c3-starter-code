@@ -1,0 +1,14 @@
+channels:
+  - conda-forge
+  - default
+dependencies:
+  - scikit-learn
+  - dvc
+  - pandas
+  - numpy
+  - pytest
+  - jupyter
+  - jupyterlab
+  - fastapi
+  - uvicorn
+  - flake8

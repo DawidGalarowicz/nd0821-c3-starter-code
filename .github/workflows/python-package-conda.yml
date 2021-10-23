@@ -7,16 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
     - uses: conda-incubator/setup-miniconda@v2
       with:
         environment-file: ./.github/workflows/environment.yml
+        python-version: 3.8
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:

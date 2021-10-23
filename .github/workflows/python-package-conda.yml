@@ -19,9 +19,9 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@master
       with:
-        role-to-assume: arn:aws:iam::696441228013:user/udacity-heroku-mlops
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
-        role-session-name: GitHubActions
     - uses: iterative/setup-dvc@v1
     - name: Pull DVC
       run: |

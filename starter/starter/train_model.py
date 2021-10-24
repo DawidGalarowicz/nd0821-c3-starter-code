@@ -1,28 +1,36 @@
-# Script to train machine learning model.
-
+# Package imports
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from joblib import dump, load
+import pandas as pd
+import yaml
+import logging
+import argparse
 
-# Add the necessary imports for the starter code.
+class PrepModel:
+    def __init__(self, input_path, output_path, label, params_path, pipe):
+        self.data_input = pd.read_csv(input_path)
+        self.output_path = output_path
+        self.label = label
+        self.params = fetch_params(params_path)
+        self.pipe = pipe
+        logger.info("Initialisation completed successfully!")
 
-# Add code to load in the data.
+    def model_training(self):
+        X = self.data_input
+        y = X.pop(self.label)
 
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20)
+        logger.info("Model training")
+        model = self._model_pipeline().fit(X, y)
 
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "native-country",
-]
-X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
-)
+        logger.info("Model persistence")
+        dump(model, output_path) 
 
-# Proces the test data with the process_data function.
-
-# Train and save a model.
+    def _model_definition(self):
+        return LogisticRegression(**params['model'])
+    
+    def _model_pipeline(self):
+        return Pipeline([('preprocessor', self.pipe), ('model', self._model_definition())])

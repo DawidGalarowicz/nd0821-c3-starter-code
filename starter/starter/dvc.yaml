@@ -1,0 +1,16 @@
+stages:
+  data_preparation:
+    cmd: python prepare_data.py --input_path ../data/census.csv --output_path ../data
+    deps:
+    - ../data/census.csv
+    - pipeline_components.py
+    - prepare_data.py
+    params:
+    - data.target
+    - data.test_size
+    - seed
+    outs:
+    - ../data/fitted_data_pipeline.joblib
+    - ../data/test_clean_census.csv
+    - ../data/train_clean_census.csv
+    - ../data/train_processed_census.csv

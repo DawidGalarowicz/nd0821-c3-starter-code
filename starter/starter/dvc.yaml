@@ -14,3 +14,16 @@ stages:
     - ../data/test_clean_census.csv
     - ../data/train_clean_census.csv
     - ../data/train_processed_census.csv
+  training:
+    cmd: python train_model.py --input_path ../data/train_clean_census.csv --output_path
+      .. --pipe_path ../data/fitted_data_pipeline.joblib
+    deps:
+    - ../data/train_clean_census.csv
+    - pipeline_components.py
+    - prepare_data.py
+    - train_model.py
+    params:
+    - data.target
+    - model
+    outs:
+    - ../model.joblib

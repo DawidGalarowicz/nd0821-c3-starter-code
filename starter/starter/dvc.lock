@@ -30,3 +30,29 @@ stages:
     - path: ../data/train_processed_census.csv
       md5: 557d06b0338546b906b984215d68d006
       size: 14638292
+  training:
+    cmd: python train_model.py --input_path ../data/train_clean_census.csv --output_path
+      .. --pipe_path ../data/fitted_data_pipeline.joblib
+    deps:
+    - path: ../data/train_clean_census.csv
+      md5: 2ecbe5daa70bf7230243e724f24303b9
+      size: 3012039
+    - path: pipeline_components.py
+      md5: 94e3fbfe1054c40a4ff1aede2214f1c0
+      size: 1525
+    - path: prepare_data.py
+      md5: e525ce3c933b606cb12ad204aece90cd
+      size: 3462
+    - path: train_model.py
+      md5: 2b587a59aec8aaa1cfacda7c25f2f3aa
+      size: 2237
+    params:
+      params.yaml:
+        data.target: salary
+        model:
+          penalty: l2
+          solver: liblinear
+    outs:
+    - path: ../model.joblib
+      md5: ac6cdfd3b1db12c307f810e0addede4c
+      size: 9023

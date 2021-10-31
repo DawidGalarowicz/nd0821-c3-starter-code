@@ -10,8 +10,8 @@ stages:
       md5: 94e3fbfe1054c40a4ff1aede2214f1c0
       size: 1525
     - path: prepare_data.py
-      md5: e525ce3c933b606cb12ad204aece90cd
-      size: 3462
+      md5: 240621baaba7e032798550b91726990a
+      size: 3726
     params:
       params.yaml:
         data.target: salary
@@ -19,30 +19,27 @@ stages:
         seed: 99
     outs:
     - path: ../data/fitted_data_pipeline.joblib
-      md5: ca62d05a4b1e570809c90faa3db01189
-      size: 7415
+      md5: d046aa1ace8b185783a97236c45f70a6
+      size: 7387
     - path: ../data/test_clean_census.csv
-      md5: 00f1a1c1925b090360f90a5cb3297dde
-      size: 752854
+      md5: 0011a91299c805e008a765b9729cf5fe
+      size: 716054
     - path: ../data/train_clean_census.csv
-      md5: 2ecbe5daa70bf7230243e724f24303b9
-      size: 3012039
+      md5: ad4183def0ef7b7eb89fa8a3eab1ae42
+      size: 2864561
     - path: ../data/train_processed_census.csv
-      md5: 557d06b0338546b906b984215d68d006
-      size: 14638292
+      md5: dc48728ee1d9bc1ed99115cf29d7fdb9
+      size: 8024606
   training:
     cmd: python train_model.py --input_path ../data/train_clean_census.csv --output_path
       .. --pipe_path ../data/fitted_data_pipeline.joblib
     deps:
     - path: ../data/train_clean_census.csv
-      md5: 2ecbe5daa70bf7230243e724f24303b9
-      size: 3012039
+      md5: ad4183def0ef7b7eb89fa8a3eab1ae42
+      size: 2864561
     - path: pipeline_components.py
       md5: 94e3fbfe1054c40a4ff1aede2214f1c0
       size: 1525
-    - path: prepare_data.py
-      md5: e525ce3c933b606cb12ad204aece90cd
-      size: 3462
     - path: train_model.py
       md5: 2b587a59aec8aaa1cfacda7c25f2f3aa
       size: 2237
@@ -54,5 +51,28 @@ stages:
           solver: liblinear
     outs:
     - path: ../model.joblib
-      md5: ac6cdfd3b1db12c307f810e0addede4c
-      size: 9023
+      md5: ad9528cfcebfa61ddc94158c9ecf24fd
+      size: 9001
+  scoring:
+    cmd: python score_model.py --input_path ../data/test_clean_census.csv --output_path
+      ../data/results.txt --model_path ../model.joblib
+    deps:
+    - path: ../data/test_clean_census.csv
+      md5: 0011a91299c805e008a765b9729cf5fe
+      size: 716054
+    - path: ../model.joblib
+      md5: ad9528cfcebfa61ddc94158c9ecf24fd
+      size: 9001
+    - path: score_model.py
+      md5: de9693e6603666aaf0cdb5688f22dca4
+      size: 3655
+    params:
+      params.yaml:
+        data.target: salary
+        model:
+          penalty: l2
+          solver: liblinear
+    outs:
+    - path: ../data/results.txt
+      md5: 3942b07662443c9a574467087bde7182
+      size: 95

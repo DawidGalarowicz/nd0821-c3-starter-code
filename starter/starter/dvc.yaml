@@ -20,10 +20,21 @@ stages:
     deps:
     - ../data/train_clean_census.csv
     - pipeline_components.py
-    - prepare_data.py
     - train_model.py
     params:
     - data.target
     - model
     outs:
     - ../model.joblib
+  scoring:
+    cmd: python score_model.py --input_path ../data/test_clean_census.csv --output_path
+      ../data/results.txt --model_path ../model.joblib
+    deps:
+    - ../data/test_clean_census.csv
+    - score_model.py
+    - ../model.joblib
+    params:
+    - data.target
+    - model
+    outs:
+    - ../data/results.txt

@@ -4,3 +4,4 @@
 /train_clean_census.csv
 /test_clean_census.csv
 /fitted_data_pipeline.joblib
+/results.txt

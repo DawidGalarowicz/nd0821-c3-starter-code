@@ -8,6 +8,7 @@ from sklearn.linear_model import LogisticRegression
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
+
 def data_pipeline():
     """Define ColumnTransformer that any raw data supplied to the model will be adjusted by"""
     logger.info("Preparing data pipeline")
@@ -24,27 +25,34 @@ def data_pipeline():
     ]
 
     numerical_features = [
-        'age',
-        'fnlgt',
-        'education-num',
-        'capital-gain',
-        'capital-loss',
-        'hours-per-week'
+        "age",
+        "fnlgt",
+        "education-num",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week",
     ]
 
-    categorical_preproc = Pipeline([('imputer', SimpleImputer(strategy="most_frequent")),
-                                    ('encoder', OneHotEncoder())])
+    categorical_preproc = Pipeline(
+        [
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("encoder", OneHotEncoder()),
+        ]
+    )
 
-    numerical_preproc = Pipeline([('imputer', SimpleImputer(strategy="median")),
-                                    ('scaler', StandardScaler())])
+    numerical_preproc = Pipeline(
+        [("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]
+    )
 
     preprocessor = ColumnTransformer(
-    transformers=[
-        ("categorical_preproc", categorical_preproc, cat_features),
-        ("numerical_preproc", numerical_preproc, numerical_features)
-    ])
+        transformers=[
+            ("categorical_preproc", categorical_preproc, cat_features),
+            ("numerical_preproc", numerical_preproc, numerical_features),
+        ]
+    )
 
     return preprocessor
+
 
 def model_definition():
     """Specify the model that you want to train"""

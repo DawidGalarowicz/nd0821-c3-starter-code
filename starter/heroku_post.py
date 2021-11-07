@@ -15,9 +15,12 @@ data = {
     "capital_gain": 217400,
     "capital_loss": 41,
     "hours_per_week": 50,
-    "native_country": "United-States"}
+    "native_country": "United-States",
+}
 
-response = requests.post('https://dawid-udacity-project.herokuapp.com/predict', data = data)
+response = requests.post(
+    "https://dawid-udacity-project.herokuapp.com/predict", data=data
+)
 
 print(response.status_code)
 print(response.json())

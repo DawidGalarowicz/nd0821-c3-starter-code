@@ -19,7 +19,7 @@ data = {
 }
 
 response = requests.post(
-    "https://dawid-udacity-project.herokuapp.com/predict", data=data
+    "https://dawid-udacity-project.herokuapp.com/predict", json=data
 )
 
 print(response.status_code)

@@ -28,7 +28,7 @@ stages:
     - ../model.joblib
   scoring:
     cmd: python score_model.py --input_path ../data/test_clean_census.csv --output_path
-      ../data/results.txt --model_path ../model.joblib
+      ../data/results.txt --model_path ../model.joblib --variable race
     deps:
     - ../data/test_clean_census.csv
     - score_model.py

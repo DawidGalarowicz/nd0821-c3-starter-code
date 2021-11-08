@@ -55,7 +55,7 @@ stages:
       size: 9001
   scoring:
     cmd: python score_model.py --input_path ../data/test_clean_census.csv --output_path
-      ../data/results.txt --model_path ../model.joblib --variable race
+      ../data/results.txt --model_path ../model.joblib --variable sex
     deps:
     - path: ../data/test_clean_census.csv
       md5: 0011a91299c805e008a765b9729cf5fe
@@ -74,5 +74,5 @@ stages:
           solver: liblinear
     outs:
     - path: ../data/results.txt
-      md5: d7bf38ea2ac993afc6aa424e6a0e7a0b
-      size: 507
+      md5: ca9af4b08b6758afa24d5dda3c98ae8f
+      size: 229

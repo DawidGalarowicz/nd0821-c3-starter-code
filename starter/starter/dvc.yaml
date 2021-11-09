@@ -28,7 +28,7 @@ stages:
     - ../model.joblib
   scoring:
     cmd: python score_model.py --input_path ../data/test_clean_census.csv --output_path
-      ../data/results.txt --model_path ../model.joblib
+      ../data/slice_output.txt --model_path ../model.joblib --variable sex
     deps:
     - ../data/test_clean_census.csv
     - score_model.py
@@ -37,4 +37,4 @@ stages:
     - data.target
     - model
     outs:
-    - ../data/results.txt
+    - ../data/slice_output.txt

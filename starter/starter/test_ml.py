@@ -1,5 +1,4 @@
 import pytest
-import pandas as pd
 from prepare_data import PrepData
 import csv
 import json

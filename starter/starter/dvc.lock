@@ -41,8 +41,8 @@ stages:
       md5: 9deab8504251d4e3270f56449821b7c0
       size: 1542
     - path: train_model.py
-      md5: b629bb71ed54cbb9d2396126bdf2fd81
-      size: 2277
+      md5: 29f8b735ff67dab65efc77e6f7929179
+      size: 2067
     params:
       params.yaml:
         data.target: salary
@@ -64,8 +64,8 @@ stages:
       md5: ad9528cfcebfa61ddc94158c9ecf24fd
       size: 9001
     - path: score_model.py
-      md5: aed706f2965e50d79c0deabfe1b9c30c
-      size: 3645
+      md5: 99ee0643460929bff9094b9ac032b591
+      size: 3342
     params:
       params.yaml:
         data.target: salary

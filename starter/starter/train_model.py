@@ -1,57 +1,26 @@
-from sklearn.pipeline import Pipeline
-from joblib import dump, load
-from pipeline_components import model_definition
-from helpers import fetch_params
-import pandas as pd
-import logging
+from pipeline_components import PrepModel, ScoreModel
 import argparse
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
-logger = logging.getLogger()
-
-
-class PrepModel:
-    """Class to train the model and save it"""
-
-    def __init__(self, input_path, output_path, params_path, pipe_path):
-        self.data_input = pd.read_csv(input_path)
-        self.output_path = output_path
-        self.params = fetch_params(params_path)
-        self.pipe = load(pipe_path)
-        self.label = self.params["data"]["target"]
-        logger.info("Initialisation completed successfully!")
-
-    def model_training(self):
-        X = self.data_input
-        y = X.pop(self.label)
-
-        logger.info("Model training")
-        model = self._model_pipeline().fit(X, y)
-
-        logger.info("Model persistence")
-        dump(model, self.output_path + "/model.joblib")
-
-    def _model_pipeline(self):
-        return Pipeline(
-            [
-                ("preprocessor", self.pipe),
-                ("model", model_definition()(**self.params["model"])),
-            ]
-        )
-
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        description="Creating model assets for the project"
+        description="Creating model assets for the project including model performance metrics"
     )
 
-    parser.add_argument("--input_path", type=str, help="Path to the cleaned dataset")
+    parser.add_argument("--input_path_train", type=str, help="Path to the cleaned training dataset")
+
+    parser.add_argument("--input_path_test", type=str, help="Path to the cleaned testing dataset")
 
     parser.add_argument(
         "--output_path",
         type=str,
         help="Path to the directory where the model should be stored",
+    )
+
+    parser.add_argument(
+        "--metrics_path",
+        type=str,
+        help="Path to the directory where the metrics should be stored",
     )
 
     parser.add_argument(
@@ -69,8 +38,24 @@ if __name__ == "__main__":
         required=False,
     )
 
+    parser.add_argument(
+        "--variable",
+        type=str,
+        help="Name of the variable you want to generate performance slices for",
+        required=False,
+        default=None,
+    )
+
     args = parser.parse_args()
 
     PrepModel(
-        args.input_path, args.output_path, args.params_path, args.pipe_path
+        args.input_path_train, args.output_path, args.params_path, args.pipe_path
     ).model_training()
+    
+    ScoreModel(
+        args.input_path_test,
+        args.metrics_path,
+        args.params_path,
+        args.output_path + '/model.joblib',
+        args.variable,
+    ).performance_output()

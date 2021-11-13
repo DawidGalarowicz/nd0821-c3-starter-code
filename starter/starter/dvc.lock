@@ -7,11 +7,11 @@ stages:
       md5: dda410256d8e3ec9d0f1159d550e4990
       size: 3702862
     - path: pipeline_components.py
-      md5: 9deab8504251d4e3270f56449821b7c0
-      size: 1542
+      md5: acaf1712eb7bfbfd4e4cea7e22185869
+      size: 7520
     - path: prepare_data.py
-      md5: c8174042efe05151cfe6cfef22c89aa7
-      size: 3845
+      md5: 613bb9e578904a7ad9f950625a1dbf76
+      size: 704
     params:
       params.yaml:
         data.target: salary
@@ -76,3 +76,33 @@ stages:
     - path: ../data/slice_output.txt
       md5: ca9af4b08b6758afa24d5dda3c98ae8f
       size: 229
+  modelling:
+    cmd: python train_model.py --input_path_train ../data/train_clean_census.csv --output_path
+      .. --pipe_path ../data/fitted_data_pipeline.joblib --variable sex --metrics_path
+      ../data/slice_output.txt --input_path_test ../data/test_clean_census.csv
+    deps:
+    - path: ../data/test_clean_census.csv
+      md5: 0011a91299c805e008a765b9729cf5fe
+      size: 716054
+    - path: ../data/train_clean_census.csv
+      md5: ad4183def0ef7b7eb89fa8a3eab1ae42
+      size: 2864561
+    - path: pipeline_components.py
+      md5: acaf1712eb7bfbfd4e4cea7e22185869
+      size: 7520
+    - path: train_model.py
+      md5: 1f78dea0cdeac2944530e7e3bbd2332a
+      size: 1618
+    params:
+      params.yaml:
+        data.target: salary
+        model:
+          penalty: l2
+          solver: liblinear
+    outs:
+    - path: ../data/slice_output.txt
+      md5: ca9af4b08b6758afa24d5dda3c98ae8f
+      size: 229
+    - path: ../model.joblib
+      md5: 5a373c0e1ca665a119159d7a1f4cfb50
+      size: 8923

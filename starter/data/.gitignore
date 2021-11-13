@@ -5,3 +5,4 @@
 /test_clean_census.csv
 /fitted_data_pipeline.joblib
 /results.txt
+/slice_output.txt
